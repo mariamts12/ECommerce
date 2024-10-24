@@ -21,14 +21,14 @@
                   </tr>
                 </thead>
                 <tbody>
-
-                    {% include 'cart/cart_item.html' %}
-
+                    {% for i in items %}
+                        {% include 'cart/cart_item.html' with item=i%}
+                    {% endfor %}
                 </tbody>
             </table>
         </div>
 
-        {% include 'cart/cart_total.html' with cart=cart%}
+{#        {% include 'cart/cart_total.html' with cart=cart%}#}
     </div>
 </div>
 

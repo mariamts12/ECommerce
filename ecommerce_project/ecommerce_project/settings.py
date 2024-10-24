@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     "store",
     "order",
     "user",
+    'versatileimagefield',
 ]
 
 MIDDLEWARE = [
@@ -67,6 +68,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
+                'store.context_processors.global_context',
             ],
         },
     },
@@ -139,3 +141,10 @@ INTERNAL_IPS = [
 ]
 
 AUTH_USER_MODEL = "user.CustomUser"
+
+VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
+    'default': [
+        ('cropped', '306x214', 'crop'),  # Define a crop rendition
+        # Add other renditions if needed
+    ],
+}

@@ -1,11 +1,13 @@
 from django.core.validators import MinValueValidator
 from django.db import models
+from versatileimagefield.fields import VersatileImageField
 
-from .managers import CategoryManager, ProductManager
+from .managers import CategoryManager, ProductManager, ProductTagManager
 
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
+    # slug = models.SlugField(unique=True, blank=True)
     description = models.TextField(blank=True)
     parent = models.ForeignKey(
         "self", related_name="+", null=True, on_delete=models.SET_NULL, blank=True
@@ -17,13 +19,19 @@ class Category(models.Model):
         return self.name
 
 
+class ProductTag(models.Model):
+    name = models.CharField(max_length=50)
+    objects = ProductTagManager()
+
+
 class Product(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to="products/", null=True, blank=True)
+    image = VersatileImageField(upload_to="products/", null=True, blank=True)
     price = models.FloatField(validators=[MinValueValidator(0)])
     category = models.ManyToManyField(Category)
     quantity = models.IntegerField(validators=[MinValueValidator(0)])
+    tag = models.ManyToManyField(ProductTag, related_name="tags")
 
     objects = ProductManager()
 
