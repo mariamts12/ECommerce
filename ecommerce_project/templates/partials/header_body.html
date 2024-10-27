@@ -56,7 +56,7 @@
 
                             {% for category in header_categories %}
 
-                                <a href="{% url 'category_listing' slug=category %}" class="dropdown-item">{{ category }}</a>
+                                <a href="{% url 'category_listing' slug=category.slug %}" class="dropdown-item">{{ category }}</a>
 
                             {% endfor %}
 

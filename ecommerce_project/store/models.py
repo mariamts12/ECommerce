@@ -7,7 +7,7 @@ from .managers import CategoryManager, ProductManager, ProductTagManager
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    # slug = models.SlugField(unique=True, blank=True)
+    slug = models.SlugField(unique=True)
     description = models.TextField(blank=True)
     parent = models.ForeignKey(
         "self", related_name="+", null=True, on_delete=models.SET_NULL, blank=True

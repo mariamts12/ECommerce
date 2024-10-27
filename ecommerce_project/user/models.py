@@ -5,4 +5,4 @@ from django.db import models
 
 # Create your models here.
 class CustomUser(AbstractUser):
-    age = models.IntegerField(validators=[MinValueValidator(16)])
+    age = models.IntegerField(null=True, validators=[MinValueValidator(16)])

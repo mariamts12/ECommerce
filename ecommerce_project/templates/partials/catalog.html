@@ -7,7 +7,9 @@
             <div class="col-lg-12">
                 <div class="row g-4">
                     <div class="col-xl-3">
-                        <form method="GET" action="{% url 'search_view' %}">
+
+                        <!-- Search -->
+                        <form method="GET" action="{% url 'all_categories' %}">
                             <div class="input-group w-100 mx-auto d-flex">
                                 <input type="search" name="filter_name" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
                                 <button type="submit" id="search-icon-1" class="input-group-text p-3">
@@ -21,9 +23,9 @@
                         <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
                             <label for="fruits">Sorting:</label>
                             <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3" form="fruitform">
-                                <option value="volvo">Nothing</option>
-                                <option value="saab">Price ascending</option>
-                                <option value="saab">Price descending</option>
+                                <option value="">Nothing</option>
+                                <option value="price_asc">Price ascending</option>
+                                <option value="price_desc">Price descending</option>
                             </select>
                         </div>
                     </div>
@@ -32,27 +34,36 @@
                 <div class="row g-4">
                     <div class="col-lg-3">
                         <div class="row g-4">
+
+                            <!-- Subcategories -->
                             <div class="col-lg-12">
                                 <div class="mb-3">
+                                    {% if subcategories %}
                                     <h4>Categories</h4>
                                     <ul class="list-unstyled fruite-categorie">
                                         {% for c in subcategories %}
                                             <li>
                                                 <div class="d-flex justify-content-between fruite-name">
-                                                    <a href="{% url 'category_listing' c.name %}"><i class="fas fa-apple-alt me-2"></i>{{ c.name }}</a>
-                                                    <span>(3)</span>
+                                                    <a href="{% url 'category_listing' c.slug %}"><i class="fas fa-apple-alt me-2"></i>{{ c.name }}</a>
+                                                    <span></span>
                                                 </div>
                                             </li>
                                         {% endfor %}
                                     </ul>
+                                    {% endif %}
                                 </div>
                             </div>
+
                             <div class="col-lg-12">
-                                <form method="GET" action="{% url 'filter_view' %}">
-                                    <!-- Price Filter -->
+                                <!-- Price Filter -->
+                                {% if current_category %}
+                                  <form method="GET" action="{% url 'category_listing' current_category %}">
+                                {% else %}
+                                  <form method="GET" action="{% url 'all_categories' %}">
+                                {% endif %}
                                     <div class="mb-3">
                                         <h4 class="mb-2">Price</h4>
-                                        <input type="range" class="form-range w-100" id="rangeInput" name="filter_price" min="0" max="500" value="0" oninput="amount.value=rangeInput.value">
+                                        <input type="range" class="form-range w-100" id="rangeInput" name="filter_price" min="0" max="30" value="0" oninput="amount.value=rangeInput.value">
                                         <output id="amount" name="amount" for="rangeInput">0</output>
                                     </div>
 
@@ -82,21 +93,23 @@
                                 {% include 'index/product.html' with product=p %}
                             </div>
                         {% endfor %}
-                            <div class="pagination">
-                                <span class="step-links">
-                                    {% if page_obj.has_previous %}
-                                        <a href="?page={{ page_obj.previous_page_number }}" class="rounded">&laquo;</a>
-                                        <a href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
-                                    {% endif %}
 
-                                    <a href="?page={{ page_obj.number }}" class="active rounded">{{ page_obj.number }}</a>
-
-                                    {% if page_obj.has_next %}
-                                        <a href="?page={{ page_obj.next_page_number }}" class="rounded">{{ page_obj.next_page_number }}</a>
-                                        <a href="?page={{ page_obj.next_page_number }}" class="rounded">&raquo;</a>
-                                    {% endif %}
-                                </span>
-                            </div>
+                        <!-- Pagination -->
+                        <div class="pagination d-flex justify-content-center mt-5">
+                            {% if page_obj.has_previous %}
+                                <a href="?page={{ page_obj.previous_page_number }}" class="rounded">&laquo;</a>
+                            {% endif %}
+                            {% for page_num in get_elided_page_range %}
+                                {% if page_num == '…' %}
+                                    <a href="javascript:void(0)" class="rounded">...</a>
+                                {% else %}
+                                    <a href="?page={{ page_num }}" class="{% if page_num == page_obj.number %}active{% endif %} rounded">{{ page_num }}</a>
+                                {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                                <a href="?page={{ page_obj.next_page_number }}" class="rounded">&raquo;</a>
+                            {% endif %}
+                        </div>
                         </div>
                     </div>
                 </div>
