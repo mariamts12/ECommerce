@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import DetailView, ListView
+from django.views.generic import DetailView
 
 from order.models import Cart
 
@@ -72,7 +72,7 @@ class IndexView(View):
 class CategoryView2(View):
     def get(self, request, slug: str = ""):
         if slug == "":
-            products = Product.objects.all()
+            products = Product.objects.prefetch_related('tag')
             subcategories = Category.objects.get_top_categories()
         else:
             categories = Category.objects.get_subcategories(slug)
@@ -91,11 +91,9 @@ class CategoryView2(View):
             products = products.filter(name__contains=filter_name)
 
         paginator = Paginator(products, 9)
-        page_number = request.GET.get('page')
+        page_number = request.GET.get('page', 1)
         page_obj = paginator.get_page(page_number)
         tags = ProductTag.objects.all()
-        if not page_number:
-            page_number = 1
 
         context = {
             "page_obj": page_obj,
@@ -104,6 +102,7 @@ class CategoryView2(View):
             "get_elided_page_range": paginator.get_elided_page_range(page_number),
             "current_category": slug,
         }
+
         return render(request, "shop.html", context)
 
 

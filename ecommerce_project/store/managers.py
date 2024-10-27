@@ -33,7 +33,7 @@ class ProductTagManager(models.Manager):
 
 class ProductManager(models.Manager):
     def get_category_products(self, categories):
-        products = (self.prefetch_related('category').filter(category__id__in=categories)
+        products = (self.prefetch_related('tag').filter(category__id__in=categories)
                     .annotate(total=Round(F("quantity")*F("price"), precision=2)).distinct())
         return products
 

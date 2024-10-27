@@ -14,7 +14,7 @@ class CartView(View):
     def get(self, request):
         # if request.user.is_authenticated:
         user_id = request.user.id
-        items = CartItem.objects.get_cart_items(user_id)
+        items = CartItem.objects.get_cart_items(user_id).prefetch_related('product')
 
         context = {
             "items": items
