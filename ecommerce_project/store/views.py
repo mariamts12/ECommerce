@@ -1,7 +1,7 @@
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views import View
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 from order.models import Cart
 
@@ -23,87 +23,53 @@ class IndexView(View):
         return render(request, "index.html", context)
 
 
-# pagination ain't working right
-# class CategoryView(ListView):
-#     model = Product
-#     template_name = "shop.html"
-#     context_object_name = "page_obj"
-#     paginate_by = 9
-#
-#     def get_queryset(self):
-#         slug = self.kwargs.get('slug', "")
-#         queryset = super().get_queryset()
-#
-#         if slug:
-#             categories = Category.objects.get_subcategories(slug)
-#             queryset = queryset.filter(category__in=categories)
-#             self.subcategories = Category.objects.get_child_categories(slug)
-#         else:
-#             self.subcategories = Category.objects.get_top_categories()
-#
-#         filter_price = self.request.GET.get('filter_price')
-#         filter_tag = self.request.GET.get('filter_tag')
-#         filter_name = self.request.GET.get('filter_name')
-#
-#         if filter_tag:
-#             queryset = queryset.filter(tag__name=filter_tag)
-#         if filter_price and int(filter_price) != 0:
-#             queryset = queryset.filter(price__lte=filter_price)
-#         if filter_name:
-#             queryset = queryset.filter(name__icontains=filter_name)
-#
-#         return queryset.distinct()
-#
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#
-#         context.update({
-#                 "current_category": self.kwargs.get('slug', ""),
-#                 "subcategories": self.subcategories,
-#                 "tags": ProductTag.objects.all(),
-#                 "get_elided_page_range": context["paginator"].get_elided_page_range(
-#                     self.request.GET.get('page', 1)
-#                 )
-#             })
-#         return context
+class CategoryView(ListView):
+    model = Product
+    template_name = "shop.html"
+    context_object_name = "page_obj"
+    paginate_by = 9
 
+    def get_queryset(self):
+        slug = self.kwargs.get('slug')
 
-# pagination works
-class CategoryView2(View):
-    def get(self, request, slug: str = ""):
-        if slug == "":
-            products = Product.objects.prefetch_related('tag')
-            subcategories = Category.objects.get_top_categories()
-        else:
+        if slug:
             categories = Category.objects.get_subcategories(slug)
-            products = Product.objects.get_category_products(categories)
-            subcategories = Category.objects.get_child_categories(slug)
+            queryset = Product.objects.get_category_products(categories)
+            self.subcategories = Category.objects.get_child_categories(slug)
+        else:
+            queryset = Product.objects.all().prefetch_related('tag')
+            self.subcategories = Category.objects.get_top_categories()
 
-        filter_price = request.GET.get('filter_price')
-        filter_tag = request.GET.get('filter_tag')
-        filter_name = request.GET.get('filter_name')
+        filter_price = self.request.GET.get('filter_price')
+        filter_tag = self.request.GET.get('filter_tag')
+        filter_name = self.request.GET.get('filter_name')
 
         if filter_tag:
-            products = products.filter(tag__name=filter_tag)
+            queryset = queryset.filter(tag__name=filter_tag)
         if filter_price and int(filter_price) != 0:
-            products = products.filter(price__lte=filter_price)
+            queryset = queryset.filter(price__lte=filter_price)
         if filter_name:
-            products = products.filter(name__contains=filter_name)
+            queryset = queryset.filter(name__icontains=filter_name)
 
-        paginator = Paginator(products, 9)
-        page_number = request.GET.get('page', 1)
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        paginator = Paginator(self.get_queryset(), self.paginate_by)
+        page_number = self.request.GET.get('page', 1)
         page_obj = paginator.get_page(page_number)
-        tags = ProductTag.objects.all()
 
-        context = {
-            "page_obj": page_obj,
-            "tags": tags,
-            "subcategories": subcategories,
-            "get_elided_page_range": paginator.get_elided_page_range(page_number),
-            "current_category": slug,
-        }
-
-        return render(request, "shop.html", context)
+        context.update({
+                "page_obj": page_obj,
+                "current_category": self.kwargs.get('slug', ""),
+                "subcategories": self.subcategories,
+                "tags": ProductTag.objects.all(),
+                "get_elided_page_range": context["paginator"].get_elided_page_range(
+                    self.request.GET.get('page', 1)
+                )
+            })
+        return context
 
 
 class ProductView(DetailView):
