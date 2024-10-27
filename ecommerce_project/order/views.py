@@ -39,8 +39,3 @@ class AddCartItemView(View):
         cart_item.save()
 
         return redirect(request.META.get('HTTP_REFERER', '/'))
-
-
-class CheckoutView(View):
-    def get(self, request):
-        return render(request, "checkout.html")

@@ -3,18 +3,12 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import DetailView, ListView
 
-from order.models import Cart
-
 from .models import Product, ProductTag, Category
 
 
 class IndexView(View):
     def get(self, request):
-        cart_items_quantity = 0
-        if request.user.is_authenticated:
-            cart_items_quantity = Cart.objects.get_quantity(request.user.id)
 
-        request.session["cart_items_quantity"] = cart_items_quantity
         products = Product.objects.all()
         context = {
             "products": products
@@ -75,8 +69,3 @@ class CategoryView(ListView):
 class ProductView(DetailView):
     model = Product
     template_name = "shop-detail.html"
-
-
-class ContactView(View):
-    def get(self, request):
-        return render(request, "contact.html")
