@@ -7,7 +7,7 @@ This project is a basic e-commerce web application using Django. The project inc
 ## Pages
 
 1. **Home Page ("/")**:
-   - Displays store products, bestsellers etc.
+   - Displays store products
    
 2. **Listing Page ("/category/<slug:slug>/")**:
    - Lists all products under a selected category with filters.
@@ -16,10 +16,18 @@ This project is a basic e-commerce web application using Django. The project inc
    - Shows details of a specific product (e.g., description, price, etc.).
 
 4. **Cart Page ("/order/cart/")**:
-   - Shows the user's cart items, allowing them to review their selections.
+   - Shows the user's cart items, allowing them to review their selections and delete items from cart.
    
 5. **Checkout Page ("/order/checkout/")**:
    - A form for completing the order.
    
 6. **Contact Page ("/contact/")**:
    - A basic contact form.
+
+
+## Features
+
+- **Category Browsing**: Users can view products organized by categories and subcategories.
+- **Filtering**: Products can be filtered by price, tags, or both.
+- **Search**: Users can search for products by name.
+- **Cart Management**: Add or remove products from the cart.
