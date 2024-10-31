@@ -12,7 +12,7 @@ class Category(models.Model):
     parent = models.ForeignKey(
         "self", related_name="+", null=True, on_delete=models.SET_NULL, blank=True
     )
-
+    image = VersatileImageField(upload_to="categories/", null=True, blank=True)
     objects = CategoryManager()
 
     def __str__(self):

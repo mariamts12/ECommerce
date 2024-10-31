@@ -1,5 +1,5 @@
+{% load static %}
 <!-- Spinner Start -->
-
 <div id="spinner" class="show w-100 vh-100 bg-white position-fixed translate-middle top-50 start-50  d-flex align-items-center justify-content-center">
 
     <div class="spinner-grow text-primary" role="status"></div>
@@ -32,7 +32,7 @@
 
         <nav class="navbar navbar-light bg-white navbar-expand-xl">
 
-            <a href="{% url 'store_home_page' %}" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
+            <a href="{% url 'store:home' %}" class="navbar-brand"><h1 class="text-primary display-6">Fruitables</h1></a>
 
             <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
 
@@ -44,9 +44,9 @@
 
                 <div class="navbar-nav mx-auto">
 
-                    <a href="{% url 'store_home_page' %}" class="nav-item nav-link">Home</a>
+                    <a href="{% url 'store:home' %}" class="nav-item nav-link">Home</a>
 
-                    <a href="{% url 'all_categories' %}" class="nav-item nav-link">Shop</a>
+                    <a href="{% url 'store:all_categories' %}" class="nav-item nav-link">Shop</a>
 
                     <div class="nav-item dropdown">
 
@@ -56,7 +56,7 @@
 
                             {% for category in header_categories %}
 
-                                <a href="{% url 'category_listing' slug=category.slug %}" class="dropdown-item">{{ category }}</a>
+                                <a href="{% url 'store:category_listing' slug=category.slug %}" class="dropdown-item">{{ category }}</a>
 
                             {% endfor %}
 
@@ -64,7 +64,7 @@
 
                     </div>
 
-                    <a href="{% url 'contact' %}" class="nav-item nav-link">Contact</a>
+                    <a href="{% url 'store:contact' %}" class="nav-item nav-link">Contact</a>
 
                 </div>
 
@@ -72,7 +72,7 @@
 
                     <button class="btn-search btn border border-secondary btn-md-square rounded-circle bg-white me-4" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search text-primary"></i></button>
 
-                    <a href="{% url 'cart' %}" class="position-relative me-4 my-auto">
+                    <a href="{% url 'order:cart' %}" class="position-relative me-4 my-auto">
 
                         <i class="fa fa-shopping-bag fa-2x"></i>
 
@@ -81,11 +81,18 @@
                     </a>
 
                     <a href="#" class="my-auto">
-
                         <i class="fas fa-user fa-2x"></i>
-
                     </a>
 
+                    {% if request.user.is_authenticated %}
+                        <a href="{% url 'user:logout' %}">
+                            <img src="{% static 'img/logout.webp' %}" alt="Logout" width="40" height="40"/>
+                        </a>
+                    {% else %}
+                        <a href="{% url 'user:login' %}">
+                            <img src="{% static 'img/login.png' %}" alt="Login" width="40" height="40"/>
+                        </a>
+                    {% endif %}
                 </div>
 
             </div>
@@ -103,7 +110,7 @@
 
 
 <!-- Modal Search Start -->
-
+<form method="GET" action="{% url 'store:all_categories' %}">
 <div class="modal fade" id="searchModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
 
     <div class="modal-dialog modal-fullscreen">
@@ -119,20 +126,14 @@
             </div>
 
             <div class="modal-body d-flex align-items-center">
-
                 <div class="input-group w-75 mx-auto d-flex">
+                        <input type="search" name="filter_name" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
 
-                    <input type="search" class="form-control p-3" placeholder="keywords" aria-describedby="search-icon-1">
-
-                    <span id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
-
+                        <span type="submit" id="search-icon-1" class="input-group-text p-3"><i class="fa fa-search"></i></span>
                 </div>
-
             </div>
-
         </div>
-
     </div>
-
 </div>
+</form>
 <!-- Modal Search End -->

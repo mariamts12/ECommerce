@@ -1,28 +1,32 @@
-from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
+from django.urls import reverse_lazy
+from django.utils.decorators import method_decorator
 from django.views import View
-
+from django.views.generic import DeleteView
 from store.models import Product
+
 from .models import Cart, CartItem
 
 
+@method_decorator(login_required, name="dispatch")
 class CartView(View):
-    def post(self, request):
-        if 'delete_item_id' in request.POST:
-            CartItem.objects.delete(request.POST.get('delete_item_id'))
-        return self.get(request)
-
     def get(self, request):
-        # if request.user.is_authenticated:
         user_id = request.user.id
-        items = CartItem.objects.get_cart_items(user_id).prefetch_related('product')
+        items = CartItem.objects.get_cart_items(user_id).prefetch_related("product")
 
-        context = {
-            "items": items
-        }
+        context = {"items": items}
 
         return render(request, "cart.html", context)
 
 
+@method_decorator(login_required, name="dispatch")
+class DeleteCartItem(DeleteView):
+    model = CartItem
+    success_url = reverse_lazy("cart")
+
+
+@method_decorator(login_required, name="dispatch")
 class AddCartItemView(View):
     def post(self, request):
         product_id = request.POST.get("product_id")
@@ -38,4 +42,4 @@ class AddCartItemView(View):
             cart_item.quantity = 1
         cart_item.save()
 
-        return redirect(request.META.get('HTTP_REFERER', '/'))
+        return redirect(request.META.get("HTTP_REFERER", "/"))

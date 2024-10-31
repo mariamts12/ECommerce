@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     "store",
     "order",
     "user",
-    'versatileimagefield',
+    "versatileimagefield",
 ]
 
 MIDDLEWARE = [
@@ -53,6 +53,8 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "debug_toolbar.middleware.DebugToolbarMiddleware",
+    # custom middleware
+    "user.middleware.UserActivityMiddleware",
 ]
 
 ROOT_URLCONF = "ecommerce_project.urls"
@@ -68,7 +70,7 @@ TEMPLATES = [
                 "django.template.context_processors.request",
                 "django.contrib.auth.context_processors.auth",
                 "django.contrib.messages.context_processors.messages",
-                'store.context_processors.global_context',
+                "store.context_processors.global_context",
             ],
         },
     },
@@ -141,10 +143,12 @@ INTERNAL_IPS = [
 ]
 
 AUTH_USER_MODEL = "user.CustomUser"
+LOGIN_URL = "/user/login/"
+LOGIN_REDIRECT_URL = "/"
 
 VERSATILEIMAGEFIELD_RENDITION_KEY_SETS = {
-    'default': [
-        ('cropped', '306x214', 'crop'),  # Define a crop rendition
+    "default": [
+        ("cropped", "306x214", "crop"),  # Define a crop rendition
         # Add other renditions if needed
     ],
 }

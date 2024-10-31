@@ -31,7 +31,7 @@
     </td>
 
     <td>
-        <form action="{% url 'cart' %}" method="post">
+        <form action="{% url 'order:delete_item' item.id %}" method="post">
             {% csrf_token %}
             <input type="hidden" name="delete_item_id" value="{{ item.id }}">
             <button class="btn btn-md rounded-circle bg-light border mt-4" >

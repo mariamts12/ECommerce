@@ -1,5 +1,6 @@
 from order.models import Cart
-from .models import Category, Product
+
+from .models import Category
 
 
 def global_context(request):

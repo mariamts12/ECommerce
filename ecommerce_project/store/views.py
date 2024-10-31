@@ -3,16 +3,14 @@ from django.shortcuts import render
 from django.views import View
 from django.views.generic import DetailView, ListView
 
-from .models import Product, ProductTag, Category
+from .models import Category, Product, ProductTag
 
 
 class IndexView(View):
     def get(self, request):
 
         products = Product.objects.all()
-        context = {
-            "products": products
-        }
+        context = {"products": products}
 
         return render(request, "index.html", context)
 
@@ -24,19 +22,19 @@ class CategoryView(ListView):
     paginate_by = 9
 
     def get_queryset(self):
-        slug = self.kwargs.get('slug')
+        slug = self.kwargs.get("slug")
 
         if slug:
             categories = Category.objects.get_subcategories(slug)
             queryset = Product.objects.get_category_products(categories)
             self.subcategories = Category.objects.get_child_categories(slug)
         else:
-            queryset = Product.objects.all().prefetch_related('tag')
+            queryset = Product.objects.all().prefetch_related("tag")
             self.subcategories = Category.objects.get_top_categories()
 
-        filter_price = self.request.GET.get('filter_price')
-        filter_tag = self.request.GET.get('filter_tag')
-        filter_name = self.request.GET.get('filter_name')
+        filter_price = self.request.GET.get("filter_price")
+        filter_tag = self.request.GET.get("filter_tag")
+        filter_name = self.request.GET.get("filter_name")
 
         if filter_tag:
             queryset = queryset.filter(tag__name=filter_tag)
@@ -51,18 +49,20 @@ class CategoryView(ListView):
         context = super().get_context_data(**kwargs)
 
         paginator = Paginator(self.get_queryset(), self.paginate_by)
-        page_number = self.request.GET.get('page', 1)
+        page_number = self.request.GET.get("page", 1)
         page_obj = paginator.get_page(page_number)
 
-        context.update({
+        context.update(
+            {
                 "page_obj": page_obj,
-                "current_category": self.kwargs.get('slug', ""),
+                "current_category": self.kwargs.get("slug", ""),
                 "subcategories": self.subcategories,
                 "tags": ProductTag.objects.all(),
                 "get_elided_page_range": context["paginator"].get_elided_page_range(
-                    self.request.GET.get('page', 1)
-                )
-            })
+                    self.request.GET.get("page", 1)
+                ),
+            }
+        )
         return context
 
 

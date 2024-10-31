@@ -5,7 +5,7 @@
         <div class="pb-4 mb-4" style="border-bottom: 1px solid rgba(226, 175, 24, 0.5) ;">
             <div class="row g-4">
                 <div class="col-lg-3">
-                    <a href="{% url 'store_home_page' %}">
+                    <a href="{% url 'store:home' %}">
                         <h1 class="text-primary mb-0">Fruitables</h1>
                         <p class="text-secondary mb-0">Fresh products</p>
                     </a>
@@ -39,7 +39,7 @@
                 <div class="d-flex flex-column text-start footer-item">
                     <h4 class="text-light mb-3">Shop Info</h4>
                     <a class="btn-link" href="">About Us</a>
-                    <a class="btn-link" href="{% url 'contact' %}">Contact Us</a>
+                    <a class="btn-link" href="{% url 'store:contact' %}">Contact Us</a>
                     <a class="btn-link" href="">Privacy Policy</a>
                     <a class="btn-link" href="">Terms & Condition</a>
                     <a class="btn-link" href="">Return Policy</a>
@@ -50,8 +50,8 @@
                 <div class="d-flex flex-column text-start footer-item">
                     <h4 class="text-light mb-3">Account</h4>
                     <a class="btn-link" href="">My Account</a>
-                    <a class="btn-link" href="{% url 'product_details' slug=1 %}">Shop details</a>
-                    <a class="btn-link" href="{% url 'cart' %}">Shopping Cart</a>
+                    <a class="btn-link" href="{% url 'store:product_details' slug=1 %}">Shop details</a>
+                    <a class="btn-link" href="{% url 'order:cart' %}">Shopping Cart</a>
 {#                    <a class="btn-link" href="">Wishlist</a>#}
 {#                    <a class="btn-link" href="">Order History</a>#}
 {#                    <a class="btn-link" href="">International Orders</a>#}

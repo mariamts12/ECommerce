@@ -495,3 +495,18 @@
 }
 /*** Footer End ***/
 
+/* logout button */
+.logout-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: block;
+}
+
+.logout-button img {
+    width: 24px !important;
+    height: 24px !important;
+    vertical-align: middle;
+}
+
