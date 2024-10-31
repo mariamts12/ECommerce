@@ -1,19 +1,31 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-</head>
-<body>
-    <h2>Login</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <input type="hidden" name="next" value="{{ request.GET.next }}">
-        <button type="submit">Log in</button>
-    </form>
-    <p>Don't have an account?
-       <a href="{% url 'user:register' %}?next={{ request.GET.next }}" class="sign-up-button">Sign Up</a>
-    </p>
-</body>
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Login</title>
+        <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    </head>
+
+    {% include 'partials/header.html' %}
+
+    <body>
+        <div class="auth-container">
+
+            <h1>Login</h1>
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                <button type="submit">Log in</button>
+            </form>
+            <p>Don't have an account?
+                <br>
+               <a href="{% url 'user:register' %}?next={{ request.GET.next }}" class="sign-up-button">Sign Up</a>
+            </p>
+
+        </div>
+    </body>
 </html>

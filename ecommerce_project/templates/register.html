@@ -1,31 +1,37 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Sign Up</title>
-</head>
-<body>
 
-<form method="post">
-    {% csrf_token %}
-    {% for field in form %}
-        <div class="form-group">
-            <label>{{ field.label_tag }}</label>
-            {{ field }}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Sign Up</title>
+        <link rel="stylesheet" href="{% static 'css/auth.css' %}">
+    </head>
 
-            {% if field.errors %}
-                <ul class="error">
-                    {% for error in field.errors %}
-                        <li>{{ error }}</li>
-                    {% endfor %}
-                </ul>
-            {% endif %}
+    {% include 'partials/header.html' %}
+
+    <body>
+        <div class="auth-container">
+            <form method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class="form-group">
+                        <label>{{ field.label_tag }}</label>
+                        {{ field }}
+
+                        {% if field.errors %}
+                            <ul class="error">
+                                {% for error in field.errors %}
+                                    <li>{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                <button type="submit">Register</button>
+            </form>
         </div>
-    {% endfor %}
-    <input type="hidden" name="next" value="{{ request.GET.next }}">
-    <button type="submit">Register</button>
-</form>
-
-
-</body>
+    </body>
 </html>
