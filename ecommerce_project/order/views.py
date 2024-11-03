@@ -53,25 +53,25 @@ class AddCartItem(View):
         return redirect("store:all_categories")
 
 
-# @method_decorator(login_required, name="dispatch")
-# class UpdateCartItem(UpdateView):
-#     model = CartItem
-#
-#     def get_queryset(self):
-#         return CartItem.objects.select_related("product")
-#
-#     def post(self, request, *args, **kwargs):
-#         cart_item = self.get_object()
-#
-#         if request.POST.get('inc'):
-#             if cart_item.quantity < cart_item.product.quantity:
-#                 cart_item.quantity += 1
-#         elif request.POST.get('dec'):
-#             if cart_item.quantity > 1:
-#                 cart_item.quantity -= 1
-#             else:
-#                 cart_item.quantity = 0
-#
-#         cart_item.save()
-#
-#         return redirect(request.META.get("HTTP_REFERER", "/"))
+@method_decorator(login_required, name="dispatch")
+class UpdateCartItem(UpdateView):
+    model = CartItem
+
+    def get_queryset(self):
+        return CartItem.objects.select_related("product")
+
+    def post(self, request, *args, **kwargs):
+        cart_item = self.get_object()
+
+        if 'inc' in request.POST:
+            if cart_item.quantity < cart_item.product.quantity:
+                cart_item.quantity += 1
+                cart_item.save()
+        elif 'dec' in request.POST:
+            if cart_item.quantity > 1:
+                cart_item.quantity -= 1
+                cart_item.save()
+            else:
+                cart_item.delete()
+
+        return redirect(request.META.get("HTTP_REFERER", "/"))

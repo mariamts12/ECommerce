@@ -12,6 +12,8 @@
         <p class="mb-0 mt-4">{{ item.product.price }}$</p>
     </td>
     <td>
+        <form action="{% url 'order:update_item' item.id %}" method="post">
+        {% csrf_token %}
         <div class="input-group quantity mt-4" style="width: 100px;">
             <div class="input-group-btn">
                 <button type="submit" name="dec" class="btn btn-sm btn-minus rounded-circle bg-light border" >
@@ -25,6 +27,7 @@
                 </button>
             </div>
         </div>
+        </form>
     </td>
     <td>
         <p class="mb-0 mt-4">{{ item.total }}$</p>
