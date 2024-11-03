@@ -9,8 +9,10 @@ from .models import Category, Product, ProductTag
 class IndexView(View):
     def get(self, request):
 
-        products = Product.objects.all()
-        context = {"products": products}
+        products = Product.objects.all().prefetch_related("tag")
+        categories = Category.objects.prefetch_related("product_set").filter(parent=None).prefetch_related("product_set__tag")
+        context = {"products": products,
+                   "categories": categories}
 
         return render(request, "index.html", context)
 
