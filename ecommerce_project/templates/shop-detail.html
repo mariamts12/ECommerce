@@ -100,7 +100,7 @@
                 {% for p in related_products %}
                     <div class="border border-primary rounded position-relative vesitable-item">
                         <div class="vesitable-img">
-                            <a href="{% url 'store:product_details' p.id %}">
+                            <a href="{% url 'store:product_details' p.slug %}">
                                 <img src="{{ p.image.crop.306x214 }}" class="img-fluid w-100 rounded-top" alt="">
                             </a>
                         </div>

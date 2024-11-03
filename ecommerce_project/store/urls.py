@@ -7,7 +7,7 @@ app_name = "store"
 
 urlpatterns = [
     path("", IndexView.as_view(), name="home"),
-    path("product/<int:pk>/", ProductView.as_view(), name="product_details"),
+    path("product/<slug:slug>/", ProductView.as_view(), name="product_details"),
     path("category/<slug:slug>", CategoryView.as_view(), name="category_listing"),
     path("category/", CategoryView.as_view(), name="all_categories"),
     path(
