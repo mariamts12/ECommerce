@@ -41,7 +41,9 @@ class AddCartItem(View):
         else:
             amount = int(amount)
         if not created:
-            cart_item.quantity = min(cart_item.quantity + amount, cart_item.product.quantity)
+            cart_item.quantity = min(
+                cart_item.quantity + amount, cart_item.product.quantity
+            )
         else:
             cart_item.quantity = min(amount, cart_item.product.quantity)
 
@@ -50,7 +52,7 @@ class AddCartItem(View):
         return redirect(request.META.get("HTTP_REFERER", "/"))
 
     def get(self, request):
-        return redirect("store:all_categories")
+        return redirect("store:home")
 
 
 @method_decorator(login_required, name="dispatch")
@@ -63,11 +65,11 @@ class UpdateCartItem(UpdateView):
     def post(self, request, *args, **kwargs):
         cart_item = self.get_object()
 
-        if 'inc' in request.POST:
+        if "inc" in request.POST:
             if cart_item.quantity < cart_item.product.quantity:
                 cart_item.quantity += 1
                 cart_item.save()
-        elif 'dec' in request.POST:
+        elif "dec" in request.POST:
             if cart_item.quantity > 1:
                 cart_item.quantity -= 1
                 cart_item.save()

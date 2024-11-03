@@ -1,9 +1,7 @@
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect, render
-from django.utils.decorators import method_decorator
 from django.views import View
-from django.views.decorators.http import require_http_methods
 
 from .forms import RegisterForm
 
@@ -16,7 +14,7 @@ class Login(LoginView):
 
 
 class SignUp(View):
-    @method_decorator(require_http_methods(["POST"]))
+    # @method_decorator(require_http_methods(["POST"]))
     def post(self, request):
         form = RegisterForm(request.POST)
         if form.is_valid():
@@ -27,7 +25,7 @@ class SignUp(View):
         else:
             return render(request, "register.html", {"form": form})
 
-    @method_decorator(require_http_methods(["GET"]))
+    # @method_decorator(require_http_methods(["GET"]))
     def get(self, request):
         form = RegisterForm()
         return render(request, "register.html", {"form": form})

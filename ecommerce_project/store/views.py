@@ -1,3 +1,4 @@
+from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.shortcuts import render
 from django.views import View
@@ -10,13 +11,19 @@ class IndexView(View):
     def get(self, request):
 
         products = Product.objects.all().prefetch_related("tag")
-        categories = Category.objects.prefetch_related("product_set").filter(parent=None).prefetch_related("product_set__tag")
-        context = {"products": products,
-                   "categories": categories}
+        categories = (
+            Category.objects.prefetch_related("product_set")
+            .filter(parent=None)
+            .prefetch_related("product_set__tag")
+        )
+        context = {"products": products, "categories": categories}
 
         return render(request, "index.html", context)
 
 
+# can't cache the whole view, because in that case global_context processor won't be executed
+# so, the number of cart items in navbar won't be accurate
+# @method_decorator(cache_page(60 * 5), name='get')
 class CategoryView(ListView):
     model = Product
     template_name = "shop.html"
@@ -80,13 +87,22 @@ class ProductView(DetailView):
         context = super().get_context_data(**kwargs)
         product = self.object
 
-        related_products = Product.objects.filter(
-            category__in=product.category.all()
-        ).exclude(pk=product.pk).distinct()
+        related_products = cache.get(product.id)
+        if not related_products:
+            related_products = (
+                Product.objects.filter(category__in=product.category.all())
+                .exclude(pk=product.pk)
+                .prefetch_related("tag")
+                .annotate()
+                .distinct()
+            )
+
+        for p in related_products:
+            p.first_tag = p.tag.all()[0] if p.tag.exists() else None
 
         context.update(
             {
-                'related_products': related_products,
+                "related_products": related_products,
             }
         )
         return context
