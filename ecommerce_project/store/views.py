@@ -69,3 +69,22 @@ class CategoryView(ListView):
 class ProductView(DetailView):
     model = Product
     template_name = "shop-detail.html"
+
+    def get_queryset(self):
+        queryset = Product.objects.prefetch_related("category", "tag")
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        product = self.object
+
+        related_products = Product.objects.filter(
+            category__in=product.category.all()
+        ).exclude(pk=product.pk).distinct()
+
+        context.update(
+            {
+                'related_products': related_products,
+            }
+        )
+        return context
