@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
-
+{% load i18n %}
 {% block content %}
 
-{% include 'partials/single_page_header.html' with title="Contact"%}
+{% trans "Contact" as page_title %}
+
+{% include 'partials/single_page_header.html' with title=page_title%}
 
 <!-- Contact Start -->
 <div class="container-fluid contact py-5">

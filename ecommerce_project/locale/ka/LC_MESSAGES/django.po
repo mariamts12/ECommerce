@@ -1,0 +1,205 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2024-11-08 19:17+0000\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n!=1);\n"
+
+#: templates/404.html:13
+msgid "Page Not Found"
+msgstr "აღნიშნული გვერდი ვერ მოიძებნა"
+
+#: templates/404.html:14
+msgid ""
+"We’re sorry, the page you have looked for does not exist in our website! "
+"Maybe go to our home page or try to use a search?"
+msgstr ""
+"ვწუხვართ, გვერდი, რომელსაც ეძებდით, არ არსებობს ჩვენს ვებსაიტზე!დაბრუნდით "
+"მთავარ გვერდზე ან სცადეთ საძიებო ველის გამოყენება"
+
+#: templates/404.html:15 templates/500.html:15
+msgid "Go Back To Home"
+msgstr "მთავარზე დაბრუნება"
+
+#: templates/500.html:13
+msgid "Internal Server Error"
+msgstr "სერვერის შეცდომა"
+
+#: templates/500.html:14
+msgid ""
+"Unfortunately we're having trouble loading the page you are looking for. "
+"Please come back in a while."
+msgstr "სამწუხაროდ, გვერდი, რომელსაც ეძებდით მიუწვდომელია.სცადეთ მოგვიანებით."
+
+#: templates/cart.html:5
+msgid "Cart"
+msgstr "კალათა"
+
+#: templates/cart.html:17
+msgid "Products"
+msgstr "პროდუქტები"
+
+#: templates/cart.html:18
+msgid "Name"
+msgstr "დასახელება"
+
+#: templates/cart.html:19 templates/partials/catalog.html:66
+msgid "Price"
+msgstr "ფასი"
+
+#: templates/cart.html:20
+msgid "Quantity"
+msgstr "რაოდენობა"
+
+#: templates/cart.html:21
+msgid "Total"
+msgstr "ჯამი"
+
+#: templates/cart.html:22
+msgid "Handle"
+msgstr "წაშლა"
+
+#: templates/checkout.html:5
+msgid "Checkout"
+msgstr "შეკვეთის დასრულება"
+
+#: templates/contact.html:5 templates/partials/header_body.html:67
+msgid "Contact"
+msgstr "კონტაქტი"
+
+#: templates/index.html:14
+msgid "Our Organic Products"
+msgstr "ორგანული პროდუქტები"
+
+#: templates/index.html:20
+msgid "All Products"
+msgstr "ყველა"
+
+#: templates/index/hero.html:7
+#, fuzzy, python-format
+#| msgid "100%% Organic Foods"
+msgid "100%% Organic Foods"
+msgstr "100% ორგანული საკვები"
+
+#: templates/index/hero.html:8
+msgid "Organic Veggies & Fruits Foods"
+msgstr "ორგანული ხილ-ბოსტნეული"
+
+#: templates/index/hero.html:11 templates/index/hero.html:12
+msgid "Search"
+msgstr "ძებნა"
+
+#: templates/index/product.html:19 templates/shop-detail.html:55
+#: templates/shop-detail.html:121
+msgid "Add to cart"
+msgstr "კალათაში დამატება"
+
+#: templates/login.html:8 templates/login.html:17
+msgid "Login"
+msgstr "შესვლა"
+
+#: templates/login.html:22
+msgid "Log in"
+msgstr "შესვლა"
+
+#: templates/login.html:24
+msgid "Don't have an account?"
+msgstr "არ გაქვთ ანგარიში?"
+
+#: templates/login.html:26 templates/register.html:8 templates/register.html:16
+msgid "Sign Up"
+msgstr "რეგისტრაცია"
+
+#: templates/partials/catalog.html:6
+msgid "Organic products shop"
+msgstr "ორგანული პროდუქტების მაღაზია"
+
+#: templates/partials/catalog.html:15 templates/partials/header_body.html:130
+#: templates/shop-detail.html:70
+msgid "search"
+msgstr "ძებნა"
+
+#: templates/partials/catalog.html:25
+msgid "Sorting"
+msgstr "დალაგება"
+
+#: templates/partials/catalog.html:27
+msgid "Nothing"
+msgstr "არცერთი"
+
+#: templates/partials/catalog.html:28
+msgid "Price ascending"
+msgstr "ფასის ზრდადობით"
+
+#: templates/partials/catalog.html:29
+msgid "Price descending"
+msgstr "ფასის კლებადობით"
+
+#: templates/partials/catalog.html:43 templates/shop-detail.html:79
+msgid "Categories"
+msgstr "კატეგორიები"
+
+#: templates/partials/catalog.html:73
+msgid "Tags"
+msgstr "ტეგები"
+
+#: templates/partials/catalog.html:83
+msgid "Filter"
+msgstr "გაფილტვრა"
+
+#: templates/partials/footer.html:9 templates/partials/header.html:6
+#: templates/partials/header_body.html:36
+msgid "Fruitables"
+msgstr "ხილ-ბოსტნეული"
+
+#: templates/partials/footer.html:10
+msgid "Fresh products"
+msgstr "ახალი პროდუქტები"
+
+#: templates/partials/header_body.html:47
+#: templates/partials/single_page_header.html:6
+msgid "Home"
+msgstr "მთავარი"
+
+#: templates/partials/header_body.html:49 templates/shop.html:5
+msgid "Shop"
+msgstr "მაღაზია"
+
+#: templates/partials/header_body.html:53 templates/shop-detail.html:23
+msgid "Category"
+msgstr "კატეგორიები"
+
+#: templates/register.html:35
+msgid "Register"
+msgstr "რეგისტრაცია"
+
+#: templates/shop-detail.html:5
+msgid "Shop Detail"
+msgstr "დეტალური გვერდი"
+
+#: templates/shop-detail.html:28
+#, fuzzy
+#| msgid "Tags"
+msgid "Tag"
+msgstr "ტეგები"
+
+#: templates/shop-detail.html:59
+msgid "Out of stock"
+msgstr "არ არის მარაგში"
+
+#: templates/shop-detail.html:98
+msgid "Related products"
+msgstr "მსგავსი პროდუქტები"

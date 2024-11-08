@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n%}
 {% block content %}
 
-{% include 'partials/single_page_header.html' with title="Shop Detail"%}
+{% trans "Shop Detail" as shop_detail_title %}
+{% include 'partials/single_page_header.html' with title=shop_detail_title %}
 
 <!-- Single Product Start -->
 <div class="container-fluid py-5 mt-5">
@@ -19,12 +20,12 @@
                     </div>
                     <div class="col-lg-6">
                         <h4 class="fw-bold mb-3">{{ product.name }}</h4>
-                        <p class="mb-3">Category:
+                        <p class="mb-3">{% trans "Category" %}:
                             {% for c in product.category.all %}
                             {{ c.name }}{% if not forloop.last %}, {% endif %}
                             {% endfor %}
                         </p>
-                        <p class="mb-3">Tag:
+                        <p class="mb-3">{% trans "Tag" %}:
                             {% for t in product.tag.all %}
                                 {{ t.name }}{% if not forloop.last %}, {% endif %}
                             {% endfor %}
@@ -51,11 +52,11 @@
                                 </div>
                                 <input type="hidden" name="product_id" value="{{ product.id }}">
                                 <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
-                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                    <i class="fa fa-shopping-bag me-2 text-primary"></i> {% trans "Add to cart" %}
                                 </button>
                             </form>
                         {% else %}
-                            <p>Out of stock</p>
+                            <p>{% trans "Out of stock" %}</p>
                         {% endif %}
                     </div>
                 </div>
@@ -66,7 +67,7 @@
                         <!-- Search -->
                         <form method="GET" action="{% url 'store:all_categories' %}">
                             <div class="input-group w-100 mx-auto d-flex mb-4">
-                                <input type="search" name="filter_name" class="form-control p-3" placeholder="search" aria-describedby="search-icon-1">
+                                <input type="search" name="filter_name" class="form-control p-3" placeholder={% trans "search" %} aria-describedby="search-icon-1">
                                 <button type="submit" id="search-icon-1" class="input-group-text p-3">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -75,7 +76,7 @@
                         <!-- Categories -->
                         <div class="mb-4">
                             <div class="mb-3">
-                                <h4>Categories</h4>
+                                <h4>{% trans "Categories" %}</h4>
                                 <ul class="list-unstyled fruite-categorie">
                                     {% for c in header_categories %}
                                         <li>
@@ -94,7 +95,7 @@
         </div>
 
         <!--Related products -->
-        <h1 class="fw-bold mb-0">Related products</h1>
+        <h1 class="fw-bold mb-0">{% trans "Related products" %}</h1>
         <div class="vesitable">
             <div class="owl-carousel vegetable-carousel justify-content-center">
                 {% for p in related_products %}
@@ -117,7 +118,7 @@
                                     {% csrf_token %}
                                     <input type="hidden" name="product_id" value="{{ product.id }}">
                                     <button type="submit" class="btn border border-secondary rounded-pill px-3 text-primary">
-                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> Add to cart
+                                        <i class="fa fa-shopping-bag me-2 text-primary"></i> {% trans "Add to cart" %}
                                     </button>
                                 </form>
                             </div>

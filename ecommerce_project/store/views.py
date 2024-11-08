@@ -1,6 +1,7 @@
 from django.core.cache import cache
 from django.core.paginator import Paginator
 from django.shortcuts import render
+from django.utils.translation import get_language
 from django.views import View
 from django.views.generic import DetailView, ListView
 
@@ -9,13 +10,24 @@ from .models import Category, Product, ProductTag
 
 class IndexView(View):
     def get(self, request):
+        language = get_language()
 
-        products = Product.objects.all().prefetch_related("tag")
-        categories = (
-            Category.objects.prefetch_related("product_set")
-            .filter(parent=None)
-            .prefetch_related("product_set__tag")
-        )
+        products_cache_key = f"products_{language}"
+        products = cache.get(products_cache_key)
+        if not products:
+            products = Product.objects.all().prefetch_related("tag")
+            cache.set(products_cache_key, products, 300)
+
+        category_cache_key = f"categories_{language}"
+        categories = cache.get(category_cache_key)
+        if not categories:
+            categories = (
+                Category.objects.prefetch_related("product_set")
+                .filter(parent=None)
+                .prefetch_related("product_set__tag")
+            )
+            cache.set(category_cache_key, categories, 300)
+
         context = {"products": products, "categories": categories}
 
         return render(request, "index.html", context)
@@ -87,7 +99,10 @@ class ProductView(DetailView):
         context = super().get_context_data(**kwargs)
         product = self.object
 
-        related_products = cache.get(product.id)
+        language = get_language()
+
+        cache_key = f"{product.id}_{language}"
+        related_products = cache.get(cache_key)
         if not related_products:
             related_products = (
                 Product.objects.filter(category__in=product.category.all())
@@ -97,8 +112,10 @@ class ProductView(DetailView):
                 .distinct()
             )
 
-        for p in related_products:
-            p.first_tag = p.tag.all()[0] if p.tag.exists() else None
+            for p in related_products:
+                p.first_tag = p.tag.all()[0] if p.tag.exists() else None
+
+            cache.set(cache_key, related_products, 300)
 
         context.update(
             {

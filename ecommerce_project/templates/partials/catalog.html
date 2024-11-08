@@ -1,9 +1,9 @@
-{% load static %}
+{% load static i18n %}
 
 <!-- Fruits Shop Start-->
 <div class="container-fluid fruite py-5">
     <div class="container py-5">
-        <h1 class="mb-4">Organic products shop</h1>
+        <h1 class="mb-4">{% trans "Organic products shop" %}</h1>
         <div class="row g-4">
             <div class="col-lg-12">
                 <div class="row g-4">
@@ -12,7 +12,7 @@
                         <!-- Search -->
                         <form method="GET" action="{% url 'store:all_categories' %}">
                             <div class="input-group w-100 mx-auto d-flex">
-                                <input type="search" name="filter_name" class="form-control p-3" placeholder="search" aria-describedby="search-icon-1">
+                                <input type="search" name="filter_name" class="form-control p-3" placeholder={% trans "search" %} aria-describedby="search-icon-1">
                                 <button type="submit" id="search-icon-1" class="input-group-text p-3">
                                     <i class="fa fa-search"></i>
                                 </button>
@@ -22,11 +22,11 @@
                     <div class="col-6"></div>
                     <div class="col-xl-3">
                         <div class="bg-light ps-3 py-3 rounded d-flex justify-content-between mb-4">
-                            <label for="fruits">Sorting:</label>
+                            <label for="fruits">{% trans "Sorting" %}:</label>
                             <select id="fruits" name="fruitlist" class="border-0 form-select-sm bg-light me-3" form="fruitform">
-                                <option value="">Nothing</option>
-                                <option value="price_asc">Price ascending</option>
-                                <option value="price_desc">Price descending</option>
+                                <option value="">{% trans "Nothing" %}</option>
+                                <option value="price_asc">{% trans "Price ascending" %}</option>
+                                <option value="price_desc">{% trans "Price descending" %}</option>
                             </select>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                             <div class="col-lg-12">
                                 <div class="mb-3">
                                     {% if subcategories %}
-                                    <h4>Categories</h4>
+                                    <h4>{% trans "Categories" %}</h4>
                                     <ul class="list-unstyled fruite-categorie">
                                         {% for c in subcategories %}
                                             <li>
@@ -63,14 +63,14 @@
                                   <form method="GET" action="{% url 'store:all_categories' %}">
                                 {% endif %}
                                     <div class="mb-3">
-                                        <h4 class="mb-2">Price</h4>
+                                        <h4 class="mb-2">{% trans "Price" %}</h4>
                                         <input type="range" class="form-range w-100" id="rangeInput" name="filter_price" min="0" max="30" value="0" oninput="amount.value=rangeInput.value">
                                         <output id="amount" name="amount" for="rangeInput">0</output>
                                     </div>
 
                                     <!-- Tags Filter -->
                                     <div class="mb-3">
-                                        <h4>Tags</h4>
+                                        <h4>{% trans "Tags" %}</h4>
                                         {% for tag in tags %}
                                             <div class="mb-2">
                                                 <input type="radio" name="filter_tag" class="me-2" id="tag_{{ tag.id }}" value="{{ tag.name }}">
@@ -80,7 +80,7 @@
                                     </div>
 
                                     <!-- Submit Button -->
-                                    <button type="submit" class="btn btn-primary">Filter</button>
+                                    <button type="submit" class="btn btn-primary">{% trans "Filter" %}</button>
                                 </form>
                             </div>
                         </div>

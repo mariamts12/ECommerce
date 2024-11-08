@@ -1,8 +1,10 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static i18n%}
 {% block content %}
 
-{% include 'partials/single_page_header.html' with title="Cart"%}
+{% trans "Cart" as page_title %}
+
+{% include 'partials/single_page_header.html' with title=page_title%}
 
 
 <!-- Cart Page Start -->
@@ -12,12 +14,12 @@
             <table class="table">
                 <thead>
                   <tr>
-                    <th scope="col">Products</th>
-                    <th scope="col">Name</th>
-                    <th scope="col">Price</th>
-                    <th scope="col">Quantity</th>
-                    <th scope="col">Total</th>
-                    <th scope="col">Handle</th>
+                    <th scope="col">{% trans "Products" %}</th>
+                    <th scope="col">{% trans "Name" %}</th>
+                    <th scope="col">{% trans "Price" %}</th>
+                    <th scope="col">{% trans "Quantity" %}</th>
+                    <th scope="col">{% trans "Total" %}</th>
+                    <th scope="col">{% trans "Handle" %}</th>
                   </tr>
                 </thead>
                 <tbody>

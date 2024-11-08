@@ -1,14 +1,17 @@
 from django.core.cache import cache
+from django.utils.translation import get_language
 from order.models import Cart
 
 from .models import Category
 
 
 def global_context(request):
-    categories = cache.get("cached_categories")
+    language = get_language()
+    cache_key = f"cached_categories_{language}"
+    categories = cache.get(cache_key)
     if not categories:
         categories = Category.objects.get_top_categories()
-        cache.set("cached_categories", categories, 600)
+        cache.set(cache_key, categories, 300)
 
     if request.user.is_authenticated:
         cart_items_quantity = Cart.objects.get_quantity(request.user.id)

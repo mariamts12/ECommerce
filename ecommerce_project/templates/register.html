@@ -1,11 +1,11 @@
-{% load static %}
+{% load static i18n%}
 <!DOCTYPE html>
 <html lang="en">
 
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Sign Up</title>
+        <title>{% trans "Sign Up"%}</title>
         <link rel="stylesheet" href="{% static 'css/auth.css' %}">
     </head>
 
@@ -13,6 +13,7 @@
 
     <body>
         <div class="auth-container">
+            <h1>{% trans "Sign Up"%}</h1>
             <form method="post">
                 {% csrf_token %}
                 {% for field in form %}
@@ -30,7 +31,8 @@
                     </div>
                 {% endfor %}
                 <input type="hidden" name="next" value="{{ request.GET.next }}">
-                <button type="submit">Register</button>
+
+                <button type="submit">{% trans "Register" %}</button>
             </form>
         </div>
     </body>
