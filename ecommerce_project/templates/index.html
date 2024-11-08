@@ -1,10 +1,9 @@
 {% extends 'base.html' %}
-{% load static cache i18n%}
+{% load static i18n%}
 {% block content %}
 
 {% include "index/hero.html" %}
 
-{% cache 300 index get_language %}
 <!-- Fruits Shop Start-->
 <div class="container-fluid fruite py-5">
     <div class="container py-5">
@@ -65,5 +64,4 @@
         </div>
     </div>
 </div>
-{% endcache %}
 {% endblock content %}
